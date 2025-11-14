@@ -1,0 +1,90 @@
+public class Produit {
+    private String nom;
+    private double prix;
+    private int quantite;
+
+    public Produit(String nom, double prix, int quantite) {
+        this.nom = nom;
+        setPrix(prix);
+        this.quantite = quantite;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public double getPrix() {
+        return prix;
+    }
+
+    public void setPrix(double prix) {
+        if (prix < 0) {
+            throw new IllegalArgumentException("Le prix ne peut pas être négatif");
+        }
+        this.prix = prix;
+    }
+
+    public int getQuantite() {
+        return quantite;
+    }
+
+    public void setQuantite(int quantite) {
+        this.quantite = quantite;
+    }
+
+    @Override
+    public String toString() {
+        return "Produit: " + nom + ", Prix: " + prix + " DT, Quantité: " + quantite;
+    }
+}
+
+
+package tn.tuniprob.gestionmagasin;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Magasin {
+    private String identifiant;
+    private String adresse;
+    private int capacite;
+    private List<Produit> produits;
+    private static int nombreTotalProduits = 0;
+
+    public Magasin(String identifiant, String adresse, int capacite) {
+        this.identifiant = identifiant;
+        this.adresse = adresse;
+        this.capacite = capacite;
+        this.produits = new ArrayList<>();
+    }
+
+    public boolean ajouterProduit(Produit produit) {
+        if (produits.size() >= 50) {
+            System.out.println("Erreur: Le magasin a atteint sa capacité maximale (50 produits)");
+            return false;
+        }
+        produits.add(produit);
+        nombreTotalProduits++;
+        System.out.println("Produit '" + produit.getNom() + "' ajouté avec succès");
+        return true;
+    }
+
+    public void afficherCaracteristiques() {
+        System.out.println("\n" + "=".repeat(60));
+        System.out.println("MAGASIN - " + identifiant);
+        System.out.println("=".repeat(60));
+        System.out.println("Adresse: " + adresse);
+        System.out.println("Capacité: " + capacite);
+        System.out.println("Nombre de produits: " + produits.size() + "/50");
+        System.out.println("\nListe des produits:");
+        System.out.println("-".repeat(60));
+
+        double prixTotal = 0;
+        for (int i = 0; i < produits.size(); i++) {
+            System.out.println((i + 1) + ". " + produits.get(i));
+            prixTotal += produits.get(i).getPrix();
+        }
