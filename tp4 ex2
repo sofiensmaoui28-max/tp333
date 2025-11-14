@@ -1,0 +1,250 @@
+public class Employe {
+    protected String identifiant;
+    protected String nom;
+    protected String adresse;
+    protected int nbrHeures;
+
+    public Employe(String identifiant, String nom, String adresse, int nbrHeures) {
+        this.identifiant = identifiant;
+        this.nom = nom;
+        this.adresse = adresse;
+        this.nbrHeures = nbrHeures;
+    }
+
+    public String getIdentifiant() {
+        return identifiant;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public int getNbrHeures() {
+        return nbrHeures;
+    }
+
+    public double calculerSalaire() {
+        return 0;
+    }
+
+    public String toString() {
+        return "Identifiant: " + identifiant + ", Nom: " + nom + 
+               ", Adresse: " + adresse + ", Heures: " + nbrHeures;
+    }
+}
+
+public class Caissier extends Employe {
+    private int numeroDeCaisse;
+
+    public Caissier(String identifiant, String nom, String adresse, int nbrHeures, int numeroDeCaisse) {
+        super(identifiant, nom, adresse, nbrHeures);
+        this.numeroDeCaisse = numeroDeCaisse;
+    }
+
+    public int getNumeroDeCaisse() {
+        return numeroDeCaisse;
+    }
+
+    public double calculerSalaire() {
+        if (nbrHeures <= 180) {
+            return nbrHeures * 5;
+        } else {
+            return (180 * 5) + ((nbrHeures - 180) * 5 * 1.15);
+        }
+    }
+
+    public String toString() {
+        return super.toString() + ", Numero de caisse: " + numeroDeCaisse + 
+               ", Salaire: " + calculerSalaire() + " DT";
+    }
+}
+
+public class Vendeur extends Employe {
+    private double tauxDeVente;
+
+    public Vendeur(String identifiant, String nom, String adresse, int nbrHeures, double tauxDeVente) {
+        super(identifiant, nom, adresse, nbrHeures);
+        this.tauxDeVente = tauxDeVente;
+    }
+
+    public double getTauxDeVente() {
+        return tauxDeVente;
+    }
+
+    public double calculerSalaire() {
+        return 450 * tauxDeVente;
+    }
+
+    public String toString() {
+        return super.toString() + ", Taux de vente: " + tauxDeVente + 
+               "%, Salaire: " + calculerSalaire() + " DT";
+    }
+}
+
+public class Responsable extends Employe {
+    private double prime;
+
+    public Responsable(String identifiant, String nom, String adresse, int nbrHeures, double prime) {
+        super(identifiant, nom, adresse, nbrHeures);
+        this.prime = prime;
+    }
+
+    public double getPrime() {
+        return prime;
+    }
+
+   
+    public double calculerSalaire() {
+        if (nbrHeures <= 160) {
+            return (nbrHeures * 10) + prime;
+        } else {
+            return (160 * 10) + ((nbrHeures - 160) * 10 * 1.20) + prime;
+        }
+    }
+
+    public String toString() {
+        return super.toString() + ", Prime: " + prime + 
+               " DT, Salaire: " + calculerSalaire() + " DT";
+    }
+}
+
+public class Magasin {
+    private String identifiant;
+    private String nom;
+    private String adresse;
+    private int capacite;
+    private Produit[] produits;
+    private int nbProduits;
+    private Employe[] employes;
+    private int nbEmployes;
+
+    public Magasin(String identifiant, String nom, String adresse, int capacite) {
+        this.identifiant = identifiant;
+        this.nom = nom;
+        this.adresse = adresse;
+        this.capacite = capacite;
+        this.produits = new Produit[50];
+        this.nbProduits = 0;
+        this.employes = new Employe[20];
+        this.nbEmployes = 0;
+    }
+
+    public String getIdentifiant() {
+        return identifiant;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public int getCapacite() {
+        return capacite;
+    }
+
+    public void ajouterProduit(Produit produit) {
+        if (nbProduits < 50) {
+            produits[nbProduits] = produit;
+            nbProduits++;
+        }
+    }
+
+    public void ajouterEmploye(Employe employe) {
+        if (nbEmployes < 20) {
+            employes[nbEmployes] = employe;
+            nbEmployes++;
+        }
+    }
+
+    public void afficherEmployes() {
+        System.out.println("Employes du magasin " + nom + ":");
+        for (int i = 0; i < nbEmployes; i++) {
+            System.out.println(employes[i]);
+        }
+    }
+
+    public void afficherProduits() {
+        System.out.println("Produits du magasin " + nom + ":");
+        for (int i = 0; i < nbProduits; i++) {
+            System.out.println(produits[i]);
+        }
+    }
+
+    public void afficherDetails() {
+        System.out.println("Magasin: " + nom);
+        System.out.println("ID: " + identifiant);
+        System.out.println("Adresse: " + adresse);
+        System.out.println("Capacite: " + capacite);
+        System.out.println("Nombre de produits: " + nbProduits);
+        System.out.println("Nombre d'employes: " + nbEmployes);
+        System.out.println();
+        afficherProduits();
+        System.out.println();
+        afficherEmployes();
+    }
+
+    public void afficherSalaires() {
+        System.out.println("Salaires des employes du magasin " + nom + ":");
+        for (int i = 0; i < nbEmployes; i++) {
+            System.out.println(employes[i].getNom() + ": " + 
+                             employes[i].calculerSalaire() + " DT");
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Magasin magasin1 = new Magasin("1", "Carrefour", "Centre-Ville", 100);
+        Magasin magasin2 = new Magasin("2", "Monoprix", "Menzah 6", 150);
+
+        Caissier c1 = new Caissier("C1", "Ahmed", "Tunis", 170, 1);
+        Caissier c2 = new Caissier("C2", "Fatma", "Ariana", 190, 2);
+        Vendeur v1 = new Vendeur("V1", "Mohamed", "Ben Arous", 160, 85.5);
+        Responsable r1 = new Responsable("R1", "Sara", "La Marsa", 165, 200);
+
+        magasin1.ajouterEmploye(c1);
+        magasin1.ajouterEmploye(v1);
+        magasin1.ajouterEmploye(r1);
+
+        Caissier c3 = new Caissier("C3", "Amine", "Sousse", 185, 3);
+        Vendeur v2 = new Vendeur("V2", "Leila", "Sfax", 155, 92.3);
+        Vendeur v3 = new Vendeur("V3", "Karim", "Nabeul", 170, 78.4);
+        Vendeur v4 = new Vendeur("V4", "Nadia", "Bizerte", 160, 88.9);
+        Responsable r2 = new Responsable("R2", "Hichem", "Monastir", 170, 250);
+
+        magasin2.ajouterEmploye(c3);
+        magasin2.ajouterEmploye(v2);
+        magasin2.ajouterEmploye(v3);
+        magasin2.ajouterEmploye(v4);
+        magasin2.ajouterEmploye(r2);
+
+        magasin1.afficherEmployes();
+        System.out.println();
+        magasin2.afficherEmployes();
+        System.out.println();
+
+        Produit p1 = new Produit("P1", "Lait", 2.5);
+        Produit p2 = new Produit("P2", "Pain", 0.8);
+        Produit p3 = new Produit("P3", "Eau", 1.2);
+
+        magasin1.ajouterProduit(p1);
+        magasin1.ajouterProduit(p2);
+        magasin2.ajouterProduit(p3);
+
+        magasin1.afficherDetails();
+        System.out.println();
+        magasin2.afficherDetails();
+        System.out.println();
+
+        magasin1.afficherSalaires();
+        System.out.println();
+        magasin2.afficherSalaires();
+    }
+}
