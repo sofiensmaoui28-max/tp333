@@ -1,0 +1,110 @@
+import java.util.ArrayList;
+
+public class Magasin {
+    private String nom;
+    private ArrayList<Produit> produits;
+
+    public Magasin(String nom) {
+        this.nom = nom;
+        this.produits = new ArrayList<>();
+    }
+
+    
+    public int chercherProduit(Produit p) {
+        for (int i = 0; i < produits.size(); i++) {
+            if (produits.get(i).comparer(p)) {
+                return i; 
+            }
+        }
+        return -1; 
+    }
+
+    public boolean ajouterProduit(Produit p) {
+        if (chercherProduit(p) == -1) {
+            produits.add(p);
+            return true;
+        } else {
+            System.out.println("Produit déjà existant dans le magasin !");
+            return false;
+        }
+    }
+
+ 
+    public boolean supprimerProduit(Produit p) {
+        int pos = chercherProduit(p);
+        if (pos != -1) {
+            produits.remove(pos);
+            return true;
+        }
+        return false;
+    }
+
+    public int getNombreProduits() {
+        return produits.size();
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    @Override
+    public String toString() {
+        return "Magasin{" + nom + ", Produits=" + produits + "}";
+    }
+}
+
+
+public class TestMagasin {
+    public static void main(String[] args) {
+        Produit p1 = new Produit(1, "Lait", 1.5);
+        Produit p2 = new Produit(2, "Pain", 0.8);
+        Produit p3 = new Produit(1, "Lait", 1.5);
+
+        Magasin m1 = new Magasin("Carrefour");
+        Magasin m2 = new Magasin("Monoprix");
+
+        m1.ajouterProduit(p1);
+        m1.ajouterProduit(p2);
+        m1.ajouterProduit(p3);
+
+        m1.supprimerProduit(p2);
+
+        System.out.println(m1);
+
+       
+        m2.ajouterProduit(p2);
+        Magasin magasinPlusGrand = (m1.getNombreProduits() > m2.getNombreProduits()) ? m1 : m2;
+        System.out.println("Magasin avec le plus de produits : " + magasinPlusGrand.getNom());
+    }
+}
+public class Produit {
+    private int identifiant;
+    private String libelle;
+    private double prix;
+
+    
+    public produit(int identifiant, String libelle, double prix) {
+        this.identifiant = identifiant;
+        this.libelle = libelle;
+        this.prix = prix;
+    }
+
+  
+    public int getIdentifiant() { return identifiant; }
+    public String getLibelle() { return libelle; }
+    public double getPrix() { return prix; }
+
+    
+}
+
+    public static boolean comparer(Produit p1, Produit p2) {
+        return p1.identifiant == p2.identifiant &&
+               p1.libelle.equalsIgnoreCase(p2.libelle) &&
+               p1.prix == p2.prix;
+    }
+
+
+    public String toString() {
+        return "Produit{" + identifiant + ", " + libelle + ", " + prix + "}";
+    }
+
