@@ -1,0 +1,44 @@
+public class Produit {
+    private String identifiant;
+    private String libelle;
+    private double prix;
+
+    public Produit(String identifiant, String libelle, double prix) {
+        this.identifiant = identifiant;
+        this.libelle = libelle;
+        this.prix = prix;
+    }
+
+    public String getIdentifiant() {
+        return identifiant;
+    }
+
+    public String getLibelle() {
+        return libelle;
+    }
+
+    public double getPrix() {
+        return prix;
+    }
+
+    public boolean comparer(Produit autreProduit) {
+        if (autreProduit == null) {
+            return false;
+        }
+        return this.identifiant.equals(autreProduit.identifiant) &&
+               this.libelle.equals(autreProduit.libelle) &&
+               this.prix == autreProduit.prix;
+    }
+
+    public static boolean comparer(Produit produit1, Produit produit2) {
+        if (produit1 == null && produit2 == null) {
+            return true;
+        }
+        if (produit1 == null || produit2 == null) {
+            return false;
+        }
+        return produit1.identifiant.equals(produit2.identifiant) &&
+               produit1.libelle.equals(produit2.libelle) &&
+               produit1.prix == produit2.prix;
+    }
+}
